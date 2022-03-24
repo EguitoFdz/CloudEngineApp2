@@ -16,9 +16,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends YouTubeBaseActivity {
+
+    Button btn;
+    YouTubePlayerView youTubePlayerView;
+    YouTubePlayer.OnInitializedListener onInitializedListener;
 
     private Button logout;
 
@@ -32,6 +40,28 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        btn = findViewById(R.id.play);
+        youTubePlayerView = findViewById(R.id.YoutubePlayerView);
+
+        onInitializedListener = new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                youTubePlayer.loadVideo("M7lc1UVf-VE");
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+            }
+        };
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                youTubePlayerView.initialize("AIzaSyAX32_BBuey_Uj9gcfOfi5yMEHRMnZko-E",onInitializedListener);
+            }
+        });
 
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
