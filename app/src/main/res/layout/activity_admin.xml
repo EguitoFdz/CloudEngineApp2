@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminActivity"
+    android:padding="12dp"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/signOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cerrar sesión"
+        android:textStyle="bold"
+        android:textColor="#ffff"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <EditText
+        android:id="@+id/txt_nombrePersona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Nombre del juego"
+        android:paddingTop="12dp" />
+
+    <EditText
+        android:id="@+id/txt_descripcionPersona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="11"
+        android:inputType="text"
+        android:hint="Descripción"
+        android:paddingTop="12dp"/>
+
+    <EditText
+        android:id="@+id/txt_precioPersona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="11"
+        android:inputType="number"
+        android:hint="Precio"
+        android:paddingTop="12dp"/>
+
+    <EditText
+        android:id="@+id/txt_videoPersona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="11"
+        android:inputType="text"
+        android:hint="Clave de video"
+        android:paddingTop="12dp"/>
+
+    <EditText
+        android:id="@+id/txt_passwordPersona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Clave del juego"
+        android:paddingTop="12dp"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:textSize="30dp"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Videojuegos"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lv_datosPersonas"/>
+
+</LinearLayout>

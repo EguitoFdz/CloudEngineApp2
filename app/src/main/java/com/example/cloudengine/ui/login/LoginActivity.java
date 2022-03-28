@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cloudengine.AdminActivity;
 import com.example.cloudengine.ForgotPassword;
 import com.example.cloudengine.ProfileActivity;
 import com.example.cloudengine.R;
@@ -62,8 +63,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        googleBtn = findViewById(R.id.google_btn);
-
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this,gso);
 
@@ -71,13 +70,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(acct!=null){
             navigateToProfileActivity();
         }
-
-        googleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
 
         registrarse = (TextView) findViewById(R.id.registrarse);
         registrarse.setOnClickListener(this);
@@ -143,26 +135,53 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         progressBar.setVisibility(View.VISIBLE);
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+        if(email.equals("diego.fdz.adan@gmail.com")){
 
-                if(task.isSuccessful()){
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    if(user.isEmailVerified()){
-                        //redireccionar al perfil de usuario
-                        startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                    if(task.isSuccessful()){
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        if(user.isEmailVerified()){
+                            //redireccionar al perfil de usuario
+                            startActivity(new Intent(LoginActivity.this, AdminActivity.class));
+                        }else{
+                            user.sendEmailVerification();
+                            Toast.makeText(LoginActivity.this, "Revisa tu email para verficar tu cuenta", Toast.LENGTH_LONG).show();
+                        }
+
                     }else{
-                        user.sendEmailVerification();
-                        Toast.makeText(LoginActivity.this, "Revisa tu email para verficar tu cuenta", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "Error en el inicio de sesión, revisa tus credenciales", Toast.LENGTH_LONG).show();
                     }
-
-                }else{
-                    Toast.makeText(LoginActivity.this, "Error en el inicio de sesión, revisa tus credenciales", Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+            });
+
+        } else{
+
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+
+                    if(task.isSuccessful()){
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        if(user.isEmailVerified()){
+                            //redireccionar al perfil de usuario
+                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                        }else{
+                            user.sendEmailVerification();
+                            Toast.makeText(LoginActivity.this, "Revisa tu email para verficar tu cuenta", Toast.LENGTH_LONG).show();
+                        }
+
+                    }else{
+                        Toast.makeText(LoginActivity.this, "Error en el inicio de sesión, revisa tus credenciales", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+        }
 
     }
 

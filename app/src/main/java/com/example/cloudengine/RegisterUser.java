@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -20,11 +21,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener{
 
     private TextView banner, registerUser;
     private EditText editTextFullName, editTextEmail, editTextPassword;
     private ProgressBar progressBar;
+
+    String passwordhash;
 
     private FirebaseAuth mAuth;
 
@@ -64,6 +70,8 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         String email = editTextEmail.getText().toString().trim();
         String fullname = editTextFullName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+
+        computeMD5Hash(email.toString());
 
         if (fullname.isEmpty()){
             editTextFullName.setError("¡El nombre completo es requerido!");
@@ -128,4 +136,30 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                     }
                 });
     }
+
+    //Método Hash
+    public void computeMD5Hash(String email){
+        try {
+            //Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(email.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            StringBuffer MD5Hash = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++)
+            {
+                String h = Integer.toHexString(0xFF & messageDigest[i]);
+                while (h.length() < 2)
+                    h = "0" + h;
+                MD5Hash.append(h);
+            }
+
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    //Final método Hash
+
 }
